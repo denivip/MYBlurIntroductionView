@@ -394,7 +394,7 @@
         }
     }
     else {
-        NSLog(@"The index: %d is out of range for Panels array[0...%d]", index, Panels.count-1);
+        NSLog(@"The index: %ld is out of range for Panels array[0...%lu]", (long)index, (unsigned long)Panels.count-1);
     }
 }
 
