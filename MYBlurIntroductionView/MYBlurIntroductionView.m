@@ -362,7 +362,7 @@
 }
 
 -(void)changeToPanelAtIndex:(NSInteger)index{
-    int currentIndex = self.CurrentPanelIndex;
+    NSInteger currentIndex = self.CurrentPanelIndex;
     if (self.LanguageDirection == MYLanguageDirectionRightToLeft)
         currentIndex = (Panels.count-1)-self.CurrentPanelIndex;
     
