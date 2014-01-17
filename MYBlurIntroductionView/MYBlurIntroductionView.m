@@ -32,13 +32,14 @@
     self.MasterScrollView = [[UIScrollView alloc] initWithFrame:self.frame];
     self.MasterScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleHeight;
     self.MasterScrollView.pagingEnabled = YES;
+    self.MasterScrollView.scrollEnabled = NO;
     self.MasterScrollView.delegate = self;
     self.MasterScrollView.showsHorizontalScrollIndicator = NO;
     self.MasterScrollView.showsVerticalScrollIndicator = NO;
     [self addSubview:self.MasterScrollView];
     
     //Page Control
-    self.PageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((self.frame.size.width - kPageControlWidth)/2, self.frame.size.height - 48, kPageControlWidth, 37)];
+    self.PageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((self.frame.size.width - kPageControlWidth)/2, self.frame.size.height - 118, kPageControlWidth, 37)];
     self.PageControl.currentPage = 0;
     [self addSubview:self.PageControl];
     
@@ -64,6 +65,7 @@
     [self.LeftSkipButton.titleLabel setFont:kSkipButtonFont];
     [self.LeftSkipButton addTarget:self action:@selector(didPressSkipButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.LeftSkipButton];
+    self.LeftSkipButton.hidden = YES;
     
     //Right Skip Button
     self.RightSkipButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -72,6 +74,7 @@
     [self.RightSkipButton setTitle:skipString forState:UIControlStateNormal];
     [self.RightSkipButton addTarget:self action:@selector(didPressSkipButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.RightSkipButton];
+    self.RightSkipButton.hidden = YES;
 }
 
 //Public method used to build panels
