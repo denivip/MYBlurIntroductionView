@@ -11,8 +11,14 @@
 @implementation MYBlurIntroductionView
 @synthesize delegate;
 
+/**
+ *  Initializes a new MYBlurIntroductionView.
+ *
+ *  @param frame CGRect - The desired frame size for the introduction view
+ *
+ *  @return MYBlurIntroductionView : UIView
+ */
 -(id)initWithFrame:(CGRect)frame{
-    //self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil][0];
     if (self = [super initWithFrame:frame]) {
         self.MasterScrollView.delegate = self;
         self.frame = frame;
@@ -21,6 +27,9 @@
     return self;
 }
 
+/**
+ *  Initializes the high level view components for the introduction view.
+ */
 -(void)initializeViewComponents{
     //Background Image View
     self.BackgroundImageView = [[UIImageView alloc] initWithFrame:self.frame];
@@ -30,7 +39,7 @@
     
     //Master Scroll View
     self.MasterScrollView = [[UIScrollView alloc] initWithFrame:self.frame];
-    self.MasterScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleHeight;
+    self.MasterScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.MasterScrollView.pagingEnabled = YES;
     self.MasterScrollView.scrollEnabled = NO;
     self.MasterScrollView.delegate = self;
@@ -41,6 +50,7 @@
     //Page Control
     self.PageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((self.frame.size.width - kPageControlWidth)/2, self.frame.size.height - 118, kPageControlWidth, 37)];
     self.PageControl.currentPage = 0;
+    self.PageControl.enabled = NO;
     [self addSubview:self.PageControl];
     
     //Get skipString dimensions
@@ -77,34 +87,29 @@
     self.RightSkipButton.hidden = YES;
 }
 
-//Public method used to build panels
 -(void)buildIntroductionWithPanels:(NSArray *)panels{
     Panels = panels;
     for (MYIntroductionPanel *panel in Panels) {
         panel.parentIntroductionView = self;
     }
     
-    //Add the blur view to the background
-    [self addBlurViewWithFrame:self.frame];
+    //Add the overlay view to the background
+    [self addOverlayViewWithFrame:self.frame];
     
     //Construct panels
     [self addPanelsToScrollView];
 }
 
-//Adds the blur view just below the master scroll view for a blurred background look
--(void)addBlurViewWithFrame:(CGRect)frame{
-    if ([MYIntroductionPanel runningiOS7]) {
-        self.BlurView = [AMBlurView new];
-        self.BlurView.alpha = 1;
-        self.BlurView.blurTintColor = self.UserBackgroundColor;
-        [self.BlurView setFrame:CGRectMake(0.0f,0.0f,frame.size.width,frame.size.height)];
-        [self insertSubview:self.BlurView belowSubview:self.MasterScrollView];
-    }
-    else {
-        self.BackgroundColorView = [[UIView alloc] initWithFrame:CGRectMake(0.0f,0.0f,frame.size.width,frame.size.height)];
-        self.BackgroundColorView.backgroundColor = self.UserBackgroundColor;
-        [self insertSubview:self.BackgroundColorView belowSubview:self.MasterScrollView];
-    }
+/**
+ *  Adds the overlay view just below the master scroll view for an overlay background look.
+ *
+ *  @param frame @b CGRect - Specifies the desired size of the overlayed view.
+ *
+ */
+-(void)addOverlayViewWithFrame:(CGRect)frame{
+    self.BackgroundColorView = [[UIView alloc] initWithFrame:CGRectMake(0.0f,0.0f,frame.size.width,frame.size.height)];
+    self.BackgroundColorView.backgroundColor = self.UserBackgroundColor;
+    [self insertSubview:self.BackgroundColorView belowSubview:self.MasterScrollView];
 }
 
 -(void)addPanelsToScrollView{
@@ -173,15 +178,6 @@
     [self animatePanelAtIndex:0];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
 #pragma mark - UIScrollView Delegate
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -206,9 +202,11 @@
             //Assign the last page to be the previous current page
             LastPanelIndex = self.PageControl.currentPage;
             
-            //Trigger the panel did appear method in the
-            if ([Panels[LastPanelIndex] respondsToSelector:@selector(panelDidDisappear)]) {
-                [Panels[LastPanelIndex] panelDidDisappear];
+            //Trigger the panel did appear method, but skip on a bounce
+            if (self.PageControl.currentPage != self.CurrentPanelIndex) {
+                if ([Panels[LastPanelIndex] respondsToSelector:@selector(panelDidDisappear)]) {
+                    [Panels[LastPanelIndex] panelDidDisappear];
+                }
             }
             
             //Update Page Control
@@ -431,9 +429,6 @@
     //Immediately apply the color
     if (self.BackgroundColorView) {
         self.BackgroundColorView.backgroundColor = backgroundColor;
-    }
-    else if (self.BlurView){
-        self.BlurView.blurTintColor = backgroundColor;
     }
 }
 
