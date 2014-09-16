@@ -27,6 +27,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    _MasterScrollView.delegate = nil;
+}
+
 /**
  *  Initializes the high level view components for the introduction view.
  */
