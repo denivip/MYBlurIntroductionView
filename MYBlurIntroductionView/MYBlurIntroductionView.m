@@ -149,7 +149,7 @@
         panelXOffset += panelView.frame.size.width;
     }
     
-    [self appendCloseViewAtXIndex:&panelXOffset];
+//    [self appendCloseViewAtXIndex:&panelXOffset];
     
     [self.MasterScrollView setContentSize:CGSizeMake(panelXOffset, self.frame.size.height)];
     
@@ -169,7 +169,7 @@
         panelXOffset -= panelView.frame.size.width;
     }
     
-    [self appendCloseViewAtXIndex:&panelXOffset];
+//    [self appendCloseViewAtXIndex:&panelXOffset];
     
     
     [self.MasterScrollView setContentOffset:CGPointMake(self.frame.size.width*Panels.count, 0)];
@@ -216,6 +216,10 @@
             
             //Call Back, if applicable
             if (LastPanelIndex != self.CurrentPanelIndex) { //Keeps from making the callback when just bouncing and not actually changing pages
+                if ([(id)delegate respondsToSelector:@selector(introduction:willChangeFromPanel:withIndex:)]) {
+                    [delegate introduction:self willChangeFromPanel:Panels[LastPanelIndex] withIndex:LastPanelIndex];
+                }
+                
                 if ([(id)delegate respondsToSelector:@selector(introduction:didChangeToPanel:withIndex:)]) {
                     [delegate introduction:self didChangeToPanel:Panels[self.CurrentPanelIndex] withIndex:self.CurrentPanelIndex];
                 }
@@ -246,6 +250,10 @@
             
             //Call Back, if applicable
             if (LastPanelIndex != self.CurrentPanelIndex) { //Keeps from making the callback when just bouncing and not actually changing pages
+                if ([(id)delegate respondsToSelector:@selector(introduction:willChangeFromPanel:withIndex:)]) {
+                    [delegate introduction:self willChangeFromPanel:Panels[LastPanelIndex] withIndex:LastPanelIndex];
+                }
+                
                 if ([(id)delegate respondsToSelector:@selector(introduction:didChangeToPanel:withIndex:)]) {
                     [delegate introduction:self didChangeToPanel:Panels[Panels.count-1 - self.CurrentPanelIndex] withIndex:Panels.count-1 - self.CurrentPanelIndex];
                 }
