@@ -216,7 +216,7 @@
             
             //Call Back, if applicable
             if (LastPanelIndex != self.CurrentPanelIndex) { //Keeps from making the callback when just bouncing and not actually changing pages
-                if ([(id)delegate respondsToSelector:@selector(introduction:willChangeFromPanel:withIndex:)]) {
+                if (LastPanelIndex < self.CurrentPanelIndex && [(id)delegate respondsToSelector:@selector(introduction:willChangeFromPanel:withIndex:)]) {
                     [delegate introduction:self willChangeFromPanel:Panels[LastPanelIndex] withIndex:LastPanelIndex];
                 }
                 
@@ -239,7 +239,7 @@
         
         //remove self if you are at the end of the introduction
         if (self.CurrentPanelIndex == -1) {
-            if ([(id)delegate respondsToSelector:@selector(introduction:didFinishWithType:)]) {
+            if (LastPanelIndex < self.CurrentPanelIndex && [(id)delegate respondsToSelector:@selector(introduction:didFinishWithType:)]) {
                 [delegate introduction:self didFinishWithType:MYFinishTypeSwipeOut];
             }
         }
