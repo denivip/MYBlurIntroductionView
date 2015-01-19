@@ -36,6 +36,7 @@ typedef enum {
 -(void)introduction:(MYBlurIntroductionView *)introductionView didFinishWithType:(MYFinishType)finishType;
 -(void)introduction:(MYBlurIntroductionView *)introductionView didChangeToPanel:(MYIntroductionPanel *)panel withIndex:(NSInteger)panelIndex;
 -(void)introduction:(MYBlurIntroductionView *)introductionView willChangeFromPanel:(MYIntroductionPanel *)panel withIndex:(NSInteger)panelIndex;
+-(void)introduction:(MYBlurIntroductionView *)introductionView didScrollWithIndexRatio:(CGFloat)indexRatio;
 @end
 
 /******************************/

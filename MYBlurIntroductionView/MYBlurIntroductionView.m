@@ -275,6 +275,10 @@
         if (self.CurrentPanelIndex == (Panels.count - 1)) {
             self.alpha = ((self.MasterScrollView.frame.size.width*(float)Panels.count)-self.MasterScrollView.contentOffset.x)/self.MasterScrollView.frame.size.width;
         }
+        if ([(id)delegate respondsToSelector:@selector(introduction:didScrollWithIndexRatio:)]) {
+            CGFloat ratio = self.MasterScrollView.contentOffset.x / CGRectGetWidth(self.MasterScrollView.frame);
+            [delegate introduction:self didScrollWithIndexRatio:ratio];
+        }
     }
     else if (self.LanguageDirection == MYLanguageDirectionRightToLeft){
         if (self.CurrentPanelIndex == 0) {
