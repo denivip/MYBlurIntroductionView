@@ -47,9 +47,15 @@
     [self addSubview:self.MasterScrollView];
     
     //Page Control
-    self.PageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((self.frame.size.width - kPageControlWidth)/2, self.frame.size.height - 48, kPageControlWidth, 37)];
+    self.PageControl = [[StyledPageControl alloc] initWithFrame:CGRectMake((self.frame.size.width - kPageControlWidth)/2, self.frame.size.height - 48, kPageControlWidth, 37)];
     self.PageControl.currentPage = 0;
     self.PageControl.enabled = NO;
+    [self.PageControl setPageControlStyle:PageControlStyleStrokedCircle];
+    
+    [self.PageControl setPageControlStyle:PageControlStyleThumb];
+    [self.PageControl setThumbImage:[UIImage imageNamed:@"dot_inactive"]];
+    [self.PageControl setSelectedThumbImage:[UIImage imageNamed:@"dot_active"]];
+    
     [self addSubview:self.PageControl];
     
     //Get skipString dimensions
@@ -143,7 +149,7 @@
         panelXOffset += panelView.frame.size.width;
     }
     
-    [self appendCloseViewAtXIndex:&panelXOffset];
+//    [self appendCloseViewAtXIndex:&panelXOffset];
     
     [self.MasterScrollView setContentSize:CGSizeMake(panelXOffset, self.frame.size.height)];
     

@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "MYIntroductionPanel.h"
+#import "StyledPageControl.h"
 
 static const CGFloat kPageControlWidth = 148;
 static const CGFloat kLeftRightSkipPadding = 10;
@@ -57,7 +58,7 @@ typedef enum {
 @property (nonatomic, retain) UIView *BackgroundColorView;
 @property (retain, nonatomic) UIImageView *BackgroundImageView;
 @property (retain, nonatomic) UIScrollView *MasterScrollView;
-@property (retain, nonatomic) UIPageControl *PageControl;
+@property (retain, nonatomic) StyledPageControl *PageControl;
 @property (retain, nonatomic) UIButton *RightSkipButton;
 @property (retain, nonatomic) UIButton *LeftSkipButton;
 @property (nonatomic, assign) NSInteger CurrentPanelIndex;
