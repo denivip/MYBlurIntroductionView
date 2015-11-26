@@ -69,7 +69,10 @@
         skipStringWidth = ceilf(skipStringWidth);
     }
     else {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         skipStringWidth = [skipString sizeWithFont:kSkipButtonFont constrainedToSize:CGSizeMake(MAXFLOAT, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping].width;
+#pragma GCC diagnostic pop
     }
     
     //Left Skip Button
